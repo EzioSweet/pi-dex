@@ -141,6 +141,10 @@ function summarizeCount(text: string): number {
 	return text.split("\n").filter((line) => line.trim().length > 0).length;
 }
 
+function suppressRenderCall(): undefined {
+	return undefined;
+}
+
 export function summarizeToolForStatus(toolName: string, args: Record<string, unknown>): string {
 	switch (toolName) {
 		case "bash":
@@ -179,11 +183,7 @@ export function registerPidexTools(pi: ExtensionAPI): void {
 				details: withPidexMeta(result.details as BashToolDetails | undefined, "bash", params as Record<string, unknown>, Date.now() - started),
 			};
 		},
-		renderCall(args, theme) {
-			const command = shortenCommand(args.command || "");
-			const timeout = (args.timeout as number | undefined) ? theme.fg("dim", ` · timeout ${args.timeout}s`) : "";
-			return new Text(`${theme.fg("accent", "•")} ${theme.fg("toolTitle", "Running ")}${theme.fg("accent", command)}${theme.fg("toolTitle", " in bash")}${timeout}`, 0, 0);
-		},
+		renderCall: suppressRenderCall,
 		renderResult(result, { expanded, isPartial }, theme) {
 			const details = (result.details ?? {}) as DetailsWithPidexMeta<BashToolDetails, Record<string, unknown>>;
 			const meta = getPidexMeta<BashToolDetails, Record<string, unknown>>(details);
@@ -221,12 +221,7 @@ export function registerPidexTools(pi: ExtensionAPI): void {
 				details: withPidexMeta(result.details as ReadToolDetails | undefined, "read", params as Record<string, unknown>, Date.now() - started),
 			};
 		},
-		renderCall(args, theme) {
-			const subject = lineRange(args.offset, args.limit)
-				? `${shortenPath(args.path || "")}:${lineRange(args.offset, args.limit)}`
-				: shortenPath(args.path || "");
-			return new Text(renderToolSummary(theme, "pending", "read", subject, undefined), 0, 0);
-		},
+		renderCall: suppressRenderCall,
 		renderResult(result, { expanded, isPartial }, theme) {
 			if (isPartial) return new Text(renderToolSummary(theme, "pending", "read", "loading", undefined), 0, 0);
 			const details = (result.details ?? {}) as DetailsWithPidexMeta<ReadToolDetails, Record<string, unknown>>;
@@ -274,9 +269,7 @@ export function registerPidexTools(pi: ExtensionAPI): void {
 				details: withPidexMeta(result.details as EditToolDetails | undefined, "edit", params as Record<string, unknown>, Date.now() - started),
 			};
 		},
-		renderCall(args, theme) {
-			return new Text(renderToolSummary(theme, "pending", "edit", shortenPath(args.path || ""), undefined), 0, 0);
-		},
+		renderCall: suppressRenderCall,
 		renderResult(result, { expanded, isPartial }, theme) {
 			if (isPartial) return new Text(renderToolSummary(theme, "pending", "edit", "applying", undefined), 0, 0);
 			const details = (result.details ?? {}) as DetailsWithPidexMeta<EditToolDetails, Record<string, unknown>>;
@@ -311,13 +304,7 @@ export function registerPidexTools(pi: ExtensionAPI): void {
 				details: withPidexMeta(result.details as Record<string, never> | undefined, "write", params as Record<string, unknown>, Date.now() - started),
 			};
 		},
-		renderCall(args, theme) {
-			return new Text(
-				renderToolSummary(theme, "pending", "write", shortenPath(args.path || ""), formatLineLabel(lineCount(args.content || ""), "line")),
-				0,
-				0,
-			);
-		},
+		renderCall: suppressRenderCall,
 		renderResult(result, { isPartial }, theme) {
 			if (isPartial) return new Text(renderToolSummary(theme, "pending", "write", "writing", undefined), 0, 0);
 			const details = (result.details ?? {}) as DetailsWithPidexMeta<Record<string, never>, Record<string, unknown>>;
@@ -353,9 +340,7 @@ export function registerPidexTools(pi: ExtensionAPI): void {
 				details: withPidexMeta(result.details as FindToolDetails | undefined, "find", params as Record<string, unknown>, Date.now() - started),
 			};
 		},
-		renderCall(args, theme) {
-			return new Text(renderToolSummary(theme, "pending", "find", String(args.pattern ?? ""), args.path ? shortenPath(args.path) : undefined), 0, 0);
-		},
+		renderCall: suppressRenderCall,
 		renderResult(result, { expanded, isPartial }, theme) {
 			if (isPartial) return new Text(renderToolSummary(theme, "pending", "find", "searching", undefined), 0, 0);
 			const details = (result.details ?? {}) as DetailsWithPidexMeta<FindToolDetails, Record<string, unknown>>;
@@ -387,9 +372,7 @@ export function registerPidexTools(pi: ExtensionAPI): void {
 				details: withPidexMeta(result.details as GrepToolDetails | undefined, "grep", params as Record<string, unknown>, Date.now() - started),
 			};
 		},
-		renderCall(args, theme) {
-			return new Text(renderToolSummary(theme, "pending", "grep", String(args.pattern ?? ""), args.path ? shortenPath(args.path) : undefined), 0, 0);
-		},
+		renderCall: suppressRenderCall,
 		renderResult(result, { expanded, isPartial }, theme) {
 			if (isPartial) return new Text(renderToolSummary(theme, "pending", "grep", "searching", undefined), 0, 0);
 			const details = (result.details ?? {}) as DetailsWithPidexMeta<GrepToolDetails, Record<string, unknown>>;
@@ -421,9 +404,7 @@ export function registerPidexTools(pi: ExtensionAPI): void {
 				details: withPidexMeta(result.details as LsToolDetails | undefined, "ls", params as Record<string, unknown>, Date.now() - started),
 			};
 		},
-		renderCall(args, theme) {
-			return new Text(renderToolSummary(theme, "pending", "ls", shortenPath(args.path || "."), undefined), 0, 0);
-		},
+		renderCall: suppressRenderCall,
 		renderResult(result, { expanded, isPartial }, theme) {
 			if (isPartial) return new Text(renderToolSummary(theme, "pending", "ls", "listing", undefined), 0, 0);
 			const details = (result.details ?? {}) as DetailsWithPidexMeta<LsToolDetails, Record<string, unknown>>;
