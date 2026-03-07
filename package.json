@@ -1,6 +1,6 @@
 {
   "name": "pi-dex",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pi, but with Codex's UI — or at least as far as I can go before forking it.",
   "author": "Maria <maria@kuuro.net>",
   "license": "MIT",
