@@ -7,6 +7,7 @@
 [![GitHub](https://img.shields.io/badge/github-maria--rcks%2Fpi--dex-111111?style=flat-square&logo=github)](https://github.com/maria-rcks/pi-dex)
 
 _Pi, but with Codex's UI - or at least as far as I can go before forking it._
+
 </div>
 
 ## Install
@@ -46,6 +47,7 @@ pi -e .
 ## Development
 
 ```bash
+bun run fmt
 bun run lint
 bun run typecheck
 bun run pack:dry

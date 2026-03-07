@@ -2,27 +2,25 @@
   "name": "pi-dex",
   "version": "0.1.1",
   "description": "Pi, but with Codex's UI — or at least as far as I can go before forking it.",
-  "author": "Maria <maria@kuuro.net>",
+  "keywords": [
+    "codex",
+    "extension",
+    "pi",
+    "pi-agent",
+    "pi-package",
+    "pidex",
+    "theme"
+  ],
+  "homepage": "https://github.com/maria-rcks/pi-dex#readme",
+  "bugs": {
+    "url": "https://github.com/maria-rcks/pi-dex/issues"
+  },
   "license": "MIT",
+  "author": "Maria <maria@kuuro.net>",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/maria-rcks/pi-dex.git"
   },
-  "bugs": {
-    "url": "https://github.com/maria-rcks/pi-dex/issues"
-  },
-  "homepage": "https://github.com/maria-rcks/pi-dex#readme",
-  "type": "module",
-  "packageManager": "bun@1.3.9",
-  "keywords": [
-    "pi-package",
-    "pi",
-    "pi-agent",
-    "extension",
-    "theme",
-    "codex",
-    "pidex"
-  ],
   "files": [
     "index.ts",
     "src",
@@ -31,19 +29,16 @@
     "README.md",
     "LICENSE"
   ],
+  "type": "module",
   "scripts": {
+    "fmt": "oxfmt .",
     "lint": "oxlint .",
     "typecheck": "tsgo --noEmit -p tsconfig.json",
-    "check": "bun run lint && bun run typecheck",
+    "check": "bun run fmt && bun run lint && bun run typecheck",
     "pack:dry": "bun pm pack --dry-run"
   },
-  "pi": {
-    "extensions": [
-      "./index.ts"
-    ],
-    "themes": [
-      "./themes"
-    ]
+  "devDependencies": {
+    "@types/node": "^25.3.5"
   },
   "peerDependencies": {
     "@mariozechner/pi-agent-core": "^0.56.3",
@@ -52,7 +47,13 @@
     "@mariozechner/pi-tui": "^0.56.3",
     "@sinclair/typebox": "^0.34.48"
   },
-  "devDependencies": {
-    "@types/node": "^25.3.5"
+  "packageManager": "bun@1.3.9",
+  "pi": {
+    "extensions": [
+      "./index.ts"
+    ],
+    "themes": [
+      "./themes"
+    ]
   }
 }
