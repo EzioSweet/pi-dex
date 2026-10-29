@@ -16,6 +16,7 @@ import {
   createReadTool,
   createWriteTool,
 } from "@mariozechner/pi-coding-agent";
+import type { Component } from "@mariozechner/pi-tui";
 import { Text } from "@mariozechner/pi-tui";
 
 import {
@@ -174,6 +175,11 @@ function renderPendingCall(toolName: string, args: Record<string, unknown>, them
   );
 }
 
+const emptyCallComponent: Component = {
+  render: () => [],
+  invalidate() {},
+};
+
 function stableToolSignature(toolName: string, args: Record<string, unknown>): string {
   return `${toolName}:${JSON.stringify(args)}`;
 }
@@ -229,7 +235,7 @@ export function registerPidexTools(pi: ExtensionAPI): void {
     activeSignatureCounts.has(stableToolSignature(toolName, args));
 
   const renderPendingCallIfActive = (toolName: string, args: Record<string, unknown>, theme: any) =>
-    isToolCallActive(toolName, args) ? renderPendingCall(toolName, args, theme) : undefined;
+    isToolCallActive(toolName, args) ? renderPendingCall(toolName, args, theme) : emptyCallComponent;
 
   pi.on("tool_call", async (event) => {
     trackToolCallStart(event.toolCallId, event.toolName, event.input as Record<string, unknown>);
