@@ -35,6 +35,7 @@ pi -e .
 - Re-styles Pi with bundled PIDEX dark/light themes.
 - Adds a Codex-inspired top card and footer.
 - Re-renders built-in tools with more compact transcript output.
+- Renders fenced code blocks Codex-style: no ```` ``` ```` fences, each line prefixed with `│`.
 - Prefixes user prompts visually in a more Codex-like way.
 - Keeps everything in an extension package instead of a Pi fork.
 
