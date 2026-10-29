@@ -2,7 +2,6 @@ import type { ExtensionAPI, ExtensionContext } from "@mariozechner/pi-coding-age
 import { Box, Text } from "@mariozechner/pi-tui";
 
 import { applyPidexChrome, buildPidexInfoMessage } from "./chrome";
-import { registerCodexMarkdown } from "./markdown";
 import {
   DEFAULT_PREFS,
   PIDEX_PREFS_ENTRY,
@@ -58,7 +57,6 @@ export default function pidexExtension(pi: ExtensionAPI): void {
   let previousThemeName: string | null = null;
 
   registerPidexTools(pi);
-  registerCodexMarkdown(pi);
 
   pi.registerMessageRenderer("pidex-info", (message, _options, theme) => {
     const title = (message.details as { title?: string } | undefined)?.title ?? "PIDEX";
