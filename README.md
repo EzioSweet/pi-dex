@@ -18,13 +18,9 @@ _Pi, but with Codex's UI - or at least as far as I can go before forking it._
 
 ## Install
 
-Use whichever source you prefer:
-
 ```bash
-pi install npm:pi-dex
-# or (this maintained fork)
 pi install git:github.com/EzioSweet/pi-dex
-# or
+# or, for a local checkout
 pi install /absolute/path/to/pi-dex
 ```
 
