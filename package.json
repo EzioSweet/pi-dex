@@ -11,15 +11,15 @@
     "pidex",
     "theme"
   ],
-  "homepage": "https://github.com/maria-rcks/pi-dex#readme",
+  "homepage": "https://github.com/EzioSweet/pi-dex#readme",
   "bugs": {
-    "url": "https://github.com/maria-rcks/pi-dex/issues"
+    "url": "https://github.com/EzioSweet/pi-dex/issues"
   },
   "license": "MIT",
   "author": "Maria <maria@kuuro.net>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/maria-rcks/pi-dex.git"
+    "url": "git+https://github.com/EzioSweet/pi-dex.git"
   },
   "files": [
     "index.ts",
