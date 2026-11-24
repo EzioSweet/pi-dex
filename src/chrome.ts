@@ -23,6 +23,11 @@ function formatThinking(level: ThinkingLevel): string {
   return level === "off" ? "standard" : level;
 }
 
+function formatModel(ctx: ExtensionContext, getThinkingLevel: () => ThinkingLevel): string {
+  const name = ctx.model?.name || ctx.model?.id || "no-model";
+  return `${name} (${formatThinking(getThinkingLevel())})`;
+}
+
 function formatContextLeft(percent: number | null | undefined): string | undefined {
   if (percent == null) return undefined;
   const left = Math.max(0, Math.min(100, Math.round(100 - percent)));
@@ -47,8 +52,7 @@ export function applyPidexChrome(
           invalidate() {},
           render(width: number): string[] {
             const boxWidth = width >= 54 ? 50 : Math.max(24, width);
-            const model = ctx.model?.id ?? "no-model";
-            const thinking = formatThinking(getThinkingLevel());
+            const model = formatModel(ctx, getThinkingLevel);
             const leftPad = "";
             const border = (text: string) => theme.fg("borderAccent", text);
             const top = leftPad + border(`╭${"─".repeat(Math.max(0, boxWidth - 2))}╮`);
@@ -65,7 +69,7 @@ export function applyPidexChrome(
               leftPad +
               border("│") +
               fitVisible(
-                ` ${theme.fg("dim", "model:".padEnd(11))}${model} ${thinking}${theme.fg("accent", "    /model")}${theme.fg("dim", " to change")}`,
+                ` ${theme.fg("dim", "model:".padEnd(11))}${model}${theme.fg("accent", "    /model")}${theme.fg("dim", " to change")}`,
                 boxWidth - 2,
               ) +
               border("│");
@@ -89,12 +93,11 @@ export function applyPidexChrome(
       dispose: unsubscribe,
       invalidate() {},
       render(width: number): string[] {
-        const modelId = ctx.model?.id ?? "no-model";
-        const thinking = formatThinking(getThinkingLevel());
+        const model = formatModel(ctx, getThinkingLevel);
         const contextUsage = ctx.getContextUsage();
         const line = theme.fg(
           "dim",
-          [`${modelId} ${thinking}`, formatContextLeft(contextUsage?.percent), basename(ctx.cwd)]
+          [model, formatContextLeft(contextUsage?.percent), basename(ctx.cwd)]
             .filter((part): part is string => Boolean(part))
             .join(" · "),
         );
